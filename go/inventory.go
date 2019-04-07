@@ -4,13 +4,13 @@ package main
 // held in an inventory or warehouse
 func StockTaking(items []*Item) []*Item {
 	for _, item := range items {
-		processItem(item)
+		processItem(NewInventoryItem(item))
 	}
 
 	return items
 }
 
-func processItem(item *Item) *Item {
+func processItem(item *InventoryItem) *InventoryItem {
 	if item.name != "Aged Brie" && item.name != "Backstage passes to a TAFKAL80ETC concert" {
 		if item.quality > 0 {
 			if item.name != "Sulfuras, Hand of Ragnaros" {

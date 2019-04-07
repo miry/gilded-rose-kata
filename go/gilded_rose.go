@@ -1,10 +1,6 @@
 package main
 
-import "fmt"
-
 func main() {
-	fmt.Println("OMGHAI!")
-	// fmt.Print(items)
 	items := []*Item{
 		&Item{"+5 Dexterity Vest", 10, 20},
 		&Item{"Aged Brie", 2, 0},
