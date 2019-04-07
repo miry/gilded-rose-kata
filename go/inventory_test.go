@@ -73,7 +73,7 @@ func TestStockTakingChangeQuality(t *testing.T) {
 	}
 }
 
-func TestStockTakingCheesItemChangingQuality(t *testing.T) {
+func TestStockTakingCheeseItemChangingQuality(t *testing.T) {
 	subject := AGED_BRIE
 	tests := []struct {
 		name     string
