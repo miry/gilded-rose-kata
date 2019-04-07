@@ -25,6 +25,30 @@ func TestStockTakingEmptyItems(t *testing.T) {
 	}
 
 	if len(actual) != 0 {
-		t.Errorf("actual should be empty, instead of %v", actual)
+		t.Errorf("actual should be empty, instead of %v", len(actual))
+	}
+}
+
+func TestStockTakingLowersSellAndQuality(t *testing.T) {
+	subject := []Item{
+		Item{"+5 Dexterity Vest", 10, 20},
+	}
+
+	actual := StockTaking(subject)
+
+	if actual == nil {
+		t.Errorf("actual should not be nil")
+	}
+
+	if len(actual) != 1 {
+		t.Errorf("actual should have 1 ite, instead of %v", len(actual))
+	}
+
+	if actual[0].sellIn != 9 {
+		t.Errorf("item's sell in should be decreased by 1")
+	}
+
+	if actual[0].quality != 19 {
+		t.Errorf("item's quality should be decreased by 1")
 	}
 }
