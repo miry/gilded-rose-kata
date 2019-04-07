@@ -1,6 +1,8 @@
 package main
 
-import "testing"
+import (
+	"testing"
+)
 
 func TestStockTakingNoPanic(t *testing.T) {
 	items := []Item{
@@ -15,5 +17,14 @@ func TestStockTakingNoPanic(t *testing.T) {
 }
 
 func TestStockTakingEmptyItems(t *testing.T) {
-	StockTaking([]Item{})
+	subject := []Item{}
+	actual := StockTaking(subject)
+
+	if actual == nil {
+		t.Errorf("actual should not be nil")
+	}
+
+	if len(actual) != 0 {
+		t.Errorf("actual should be empty, instead of %v", actual)
+	}
 }
