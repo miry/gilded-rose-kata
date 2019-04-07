@@ -139,3 +139,43 @@ func TestStockTakingLegendaryItemSellInSame(t *testing.T) {
 		t.Errorf("Expect to not change sell day and be %v. Got %v", expected, actual)
 	}
 }
+
+func TestStockTakinBackstagePassesDecrSellIn(t *testing.T) {
+	subject := []Item{
+		Item{"Backstage passes to a TAFKAL80ETC concert", 15, 20},
+	}
+
+	actual := StockTaking(subject)[0].sellIn
+	expected := 14
+
+	if actual != expected {
+		t.Errorf("Expect to not change sell day and be %v. Got %v", expected, actual)
+	}
+}
+
+func TestStockTakinBackstagePassesQuality(t *testing.T) {
+	backstage := "Backstage passes to a TAFKAL80ETC concert"
+	tests := []struct {
+		name     string
+		item     Item
+		expected int
+	}{
+		{"have a lot of time increase by 1", Item{backstage, 15, 20}, 21},
+		{"concert in 11 days increse by 1", Item{backstage, 11, 20}, 21},
+		{"concert in 10 days increse by 2", Item{backstage, 10, 20}, 22},
+		{"concert in 6 days increse by 2", Item{backstage, 6, 20}, 22},
+		{"concert in 5 days increse by 3", Item{backstage, 5, 20}, 23},
+		{"concert pass drop to 0", Item{backstage, -1, 20}, 0},
+	}
+
+	for _, tc := range tests {
+		tc := tc // capture range variable
+		t.Run(tc.name, func(t *testing.T) {
+			t.Parallel()
+			actual := StockTaking([]Item{tc.item})[0].quality
+			if tc.expected != actual {
+				t.Errorf("Expect quality to be %v for sell in %v. Got %v", tc.expected, tc.item.sellIn, actual)
+			}
+		})
+	}
+}
