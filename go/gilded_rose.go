@@ -1,5 +1,7 @@
 package main
 
+import "fmt"
+
 func main() {
 	items := []*Item{
 		&Item{"+5 Dexterity Vest", 10, 20},
@@ -11,4 +13,8 @@ func main() {
 	}
 
 	StockTaking(items)
+
+	for _, item := range items {
+		fmt.Printf("- %s { sell in %d , quality: %d }\n", item.name, item.sellIn, item.quality)
+	}
 }
