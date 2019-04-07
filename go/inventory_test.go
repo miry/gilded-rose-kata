@@ -36,10 +36,6 @@ func TestStockTakingLowersSellAndQuality(t *testing.T) {
 
 	actual := StockTaking(subject)
 
-	if actual == nil {
-		t.Errorf("actual should not be nil")
-	}
-
 	if len(actual) != 1 {
 		t.Errorf("actual should have 1 ite, instead of %v", len(actual))
 	}
@@ -50,5 +46,17 @@ func TestStockTakingLowersSellAndQuality(t *testing.T) {
 
 	if actual[0].quality != 19 {
 		t.Errorf("item's quality should be decreased by 1")
+	}
+}
+
+func TestStockTakingItemQualityNeverNegative(t *testing.T) {
+	subject := []Item{
+		Item{"+5 Dexterity Vest", 10, 0},
+	}
+
+	actual := StockTaking(subject)
+
+	if actual[0].quality != 0 {
+		t.Errorf("The quality of an item is never negative")
 	}
 }
