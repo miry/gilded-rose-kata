@@ -18,6 +18,11 @@ $ make test
 $ make coverage
 ```
 
+# Packages
+
+Use standard libraries for testing, for easy setup, and skip create a packages for incapsulate code.
+Ideally services and modules should be extracted to `pkg` folder.
+
 # Linter
 
 Check that code is designed by Team practicies and save team on code review.
