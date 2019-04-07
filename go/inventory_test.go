@@ -29,7 +29,7 @@ func TestStockTakingEmptyItems(t *testing.T) {
 	}
 }
 
-func TestStockTakingLowersSellAndQuality(t *testing.T) {
+func TestStockTakingDecrSell(t *testing.T) {
 	subject := []Item{
 		Item{"+5 Dexterity Vest", 10, 20},
 	}
@@ -43,48 +43,65 @@ func TestStockTakingLowersSellAndQuality(t *testing.T) {
 	if actual[0].sellIn != 9 {
 		t.Errorf("item's sell in should be decreased by 1")
 	}
+}
 
-	if actual[0].quality != 19 {
-		t.Errorf("item's quality should be decreased by 1")
+func TestStockTakingChangeQuality(t *testing.T) {
+	subject := "+5 Dexterity Vest"
+	tests := []struct {
+		name     string
+		item     Item
+		expected int
+	}{
+		{"quality decrease every day by 1", Item{subject, 15, 20}, 19},
+		{"quality decrease faster on sell passed", Item{subject, -15, 20}, 18},
+		{"quality could be zero", Item{subject, 15, 1}, 0},
+		{"quality is not negative", Item{subject, 15, 0}, 0},
+		{"quality is not negative even for passed", Item{subject, -15, 0}, 0},
+	}
+
+	for _, tc := range tests {
+		tc := tc // capture range variable
+		t.Run(tc.name, func(t *testing.T) {
+			t.Parallel()
+			actual := StockTaking([]Item{tc.item})[0].quality
+			if tc.expected != actual {
+				t.Errorf("Expect quality to be %v for sell in %v. Got %v", tc.expected, tc.item.sellIn, actual)
+			}
+		})
 	}
 }
 
-func TestStockTakingItemQualityNeverNegative(t *testing.T) {
-	subject := []Item{
-		Item{"+5 Dexterity Vest", 10, 0},
+func TestStockTakingCheesItemChangingQuality(t *testing.T) {
+	subject := "Aged Brie"
+	tests := []struct {
+		name     string
+		item     Item
+		expected int
+	}{
+		{"quality increase every day by 1", Item{subject, 15, 20}, 21},
+		// NOTICE: Spec: Once the sell by date has passed, quality degrades twice as fast.
+		//         It uses word `degrades`, there are no words for Cheese case to `change`
+		// TODO: Clarify specs with product
+		{"quality increase twice on passed", Item{subject, -15, 20}, 22},
+		{"quality could be increased up to 50", Item{subject, -15, 49}, 50},
+		{"quality max 50", Item{subject, -15, 50}, 50},
+		// NOTICE: Spec: The quality of an item is never more than 50.
+		//         There is mention only for Legendary items to not be altered.
+		//         There are no cases, what should we do if there is quality set higher than 50
+		// TODO: Clarify specs with product
+		{"quality should not change on passed and highr max", Item{subject, -15, 60}, 60},
+		{"quality should not change and highr max", Item{subject, 15, 60}, 60},
 	}
 
-	actual := StockTaking(subject)[0].quality
-	expected := 0
-
-	if actual != expected {
-		t.Errorf("The quality of an item is never negative. Got %v", actual)
-	}
-}
-
-func TestStockTakingSellPassedQualityTwiceDecrease(t *testing.T) {
-	subject := []Item{
-		Item{"+5 Dexterity Vest", -1, 50},
-	}
-
-	actual := StockTaking(subject)[0].quality
-	expected := 48
-
-	if actual != expected {
-		t.Errorf("Expect to decreased by 2 and be %v. Got %v", expected, actual)
-	}
-}
-
-func TestStockTakingCaseAgedBrieIncrQuality(t *testing.T) {
-	subject := []Item{
-		Item{"Aged Brie", 10, 30},
-	}
-
-	actual := StockTaking(subject)[0].quality
-	expected := 31
-
-	if actual != expected {
-		t.Errorf("Expect to increase by 1 for Aged Brie and be %v. Got %v", expected, actual)
+	for _, tc := range tests {
+		tc := tc // capture range variable
+		t.Run(tc.name, func(t *testing.T) {
+			t.Parallel()
+			actual := StockTaking([]Item{tc.item})[0].quality
+			if tc.expected != actual {
+				t.Errorf("Expect quality to be %v for sell in %v. Got %v", tc.expected, tc.item.sellIn, actual)
+			}
+		})
 	}
 }
 
@@ -98,19 +115,6 @@ func TestStockTakingCaseAgedBrieDecrSellIn(t *testing.T) {
 
 	if actual != expected {
 		t.Errorf("Expect to decrease by 1 sell in for Aged Brie and be %v. Got %v", expected, actual)
-	}
-}
-
-func TestStockTakingCaseQualityMax50(t *testing.T) {
-	subject := []Item{
-		Item{"Aged Brie", 10, 50},
-	}
-
-	actual := StockTaking(subject)[0].quality
-	expected := 50
-
-	if actual != expected {
-		t.Errorf("Expect to have max %v quality. Got %v", expected, actual)
 	}
 }
 
