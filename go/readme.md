@@ -9,7 +9,7 @@ go run gilded-rose.go
 - Run tests :
 
 ```shell
-go test
+go test -race -v
 ```
 
 - Run tests and coverage :
