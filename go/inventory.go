@@ -2,7 +2,7 @@ package main
 
 // StockTaking or "inventory checking" is the physical verification of the quantities and condition of items
 // held in an inventory or warehouse
-func StockTaking() {
+func StockTaking(items []Item) {
 	for i := 0; i < len(items); i++ {
 
 		if items[i].name != "Aged Brie" && items[i].name != "Backstage passes to a TAFKAL80ETC concert" {
