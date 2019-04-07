@@ -4,6 +4,9 @@ type empty struct{}
 type set map[string]empty
 
 const (
+	MAX_QUALITY = 50
+
+	// Item Names
 	AGED_BRIE        = "Aged Brie"
 	BACKSTAGE_PASSES = "Backstage passes to a TAFKAL80ETC concert"
 	SULFURAS         = "Sulfuras, Hand of Ragnaros"
@@ -52,7 +55,7 @@ func (item *InventoryItem) Process() {
 		}
 	} else {
 		// Increment quality
-		if item.quality < 50 {
+		if item.quality < MAX_QUALITY {
 			item.quality++
 			if item.IsPromoted() {
 
@@ -66,8 +69,8 @@ func (item *InventoryItem) Process() {
 
 			}
 
-			if item.quality > 50 {
-				item.quality = 50
+			if item.quality > MAX_QUALITY {
+				item.quality = MAX_QUALITY
 			}
 
 		}
@@ -87,7 +90,7 @@ func (item *InventoryItem) Process() {
 
 	// Sell In Passed Section
 	if item.IsLongestAged() {
-		if item.quality < 50 {
+		if item.quality < MAX_QUALITY {
 			item.quality++
 		}
 
