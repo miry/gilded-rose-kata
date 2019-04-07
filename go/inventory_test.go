@@ -100,3 +100,29 @@ func TestStockTakingCaseQualityMax50(t *testing.T) {
 		t.Errorf("Expect to have max %v quality. Got %v", expected, actual)
 	}
 }
+
+func TestStockTakingLegendaryItemQualitySame(t *testing.T) {
+	subject := []Item{
+		Item{"Sulfuras, Hand of Ragnaros", 10, 80},
+	}
+
+	actual := StockTaking(subject)[0].quality
+	expected := 80
+
+	if actual != expected {
+		t.Errorf("Expect to not change quality and be %v. Got %v", expected, actual)
+	}
+}
+
+func TestStockTakingLegendaryItemSellInSame(t *testing.T) {
+	subject := []Item{
+		Item{"Sulfuras, Hand of Ragnaros", 10, 80},
+	}
+
+	actual := StockTaking(subject)[0].sellIn
+	expected := 10
+
+	if actual != expected {
+		t.Errorf("Expect to not change sell day and be %v. Got %v", expected, actual)
+	}
+}
