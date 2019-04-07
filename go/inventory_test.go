@@ -146,7 +146,7 @@ func TestStockTakingLegendaryItemSellInSame(t *testing.T) {
 	}
 }
 
-func TestStockTakinBackstagePassesDecrSellIn(t *testing.T) {
+func TestStockTakingBackstagePassesDecrSellIn(t *testing.T) {
 	subject := []*Item{
 		&Item{"Backstage passes to a TAFKAL80ETC concert", 15, 20},
 	}
@@ -159,7 +159,7 @@ func TestStockTakinBackstagePassesDecrSellIn(t *testing.T) {
 	}
 }
 
-func TestStockTakinBackstagePassesQuality(t *testing.T) {
+func TestStockTakingBackstagePassesQuality(t *testing.T) {
 	backstage := "Backstage passes to a TAFKAL80ETC concert"
 	tests := []struct {
 		name     string
@@ -168,8 +168,11 @@ func TestStockTakinBackstagePassesQuality(t *testing.T) {
 	}{
 		{"have a lot of time increase by 1", &Item{backstage, 15, 20}, 21},
 		{"concert in 11 days increse by 1", &Item{backstage, 11, 20}, 21},
+		{"concert in 11 days does not incr over maximum", &Item{backstage, 11, 50}, 50},
 		{"concert in 10 days increse by 2", &Item{backstage, 10, 20}, 22},
 		{"concert in 6 days increse by 2", &Item{backstage, 6, 20}, 22},
+		{"concert in 6 days incr by 1 to maximum", &Item{backstage, 6, 49}, 50},
+		{"concert in 6 days does not increase over maximum", &Item{backstage, 6, 50}, 50},
 		{"concert in 5 days increse by 3", &Item{backstage, 5, 20}, 23},
 		{"concert pass drop to 0", &Item{backstage, -1, 20}, 0},
 	}
@@ -186,7 +189,7 @@ func TestStockTakinBackstagePassesQuality(t *testing.T) {
 	}
 }
 
-func TestStockTakinConjuredGeneralQualities(t *testing.T) {
+func TestStockTakingConjuredGeneralQualities(t *testing.T) {
 	t.Skip("not implemented yet")
 	subject := "Conjured Mana Cake"
 	tests := []struct {
