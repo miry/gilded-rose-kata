@@ -57,6 +57,18 @@ func TestStockTakingItemQualityNeverNegative(t *testing.T) {
 	actual := StockTaking(subject)
 
 	if actual[0].quality != 0 {
-		t.Errorf("The quality of an item is never negative")
+		t.Errorf("The quality of an item is never negative. Got %v", actual[0].quality)
+	}
+}
+
+func TestStockTakingSellPassedQualityTwiceDecrease(t *testing.T) {
+	subject := []Item{
+		Item{"+5 Dexterity Vest", -1, 50},
+	}
+
+	actual := StockTaking(subject)
+
+	if actual[0].quality != 48 {
+		t.Errorf("Expect to decreased by 2 and be 48. Got %v", actual[0].quality)
 	}
 }
