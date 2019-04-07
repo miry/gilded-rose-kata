@@ -87,3 +87,16 @@ func TestStockTakingCaseAgedBrieIncrQuality(t *testing.T) {
 		t.Errorf("Expect to increase by 1 for Aged Brie and be %v. Got %v", expected, actual)
 	}
 }
+
+func TestStockTakingCaseQualityMax50(t *testing.T) {
+	subject := []Item{
+		Item{"Aged Brie", 10, 50},
+	}
+
+	actual := StockTaking(subject)[0].quality
+	expected := 50
+
+	if actual != expected {
+		t.Errorf("Expect to have max %v quality. Got %v", expected, actual)
+	}
+}
