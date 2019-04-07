@@ -53,8 +53,10 @@ func TestStockTakingChangeQuality(t *testing.T) {
 		expected int
 	}{
 		{"quality decrease every day by 1", Item{subject, 15, 20}, 19},
+		{"quality decrease every day by 1 even quality is higher maximum", Item{subject, 15, 60}, 59},
 		{"quality decrease faster on sell passed", Item{subject, -15, 20}, 18},
 		{"quality could be zero", Item{subject, 15, 1}, 0},
+		{"quality could be zero after passed", Item{subject, -15, 2}, 0},
 		{"quality is not negative", Item{subject, 15, 0}, 0},
 		{"quality is not negative even for passed", Item{subject, -15, 0}, 0},
 	}
@@ -170,6 +172,36 @@ func TestStockTakinBackstagePassesQuality(t *testing.T) {
 		{"concert in 6 days increse by 2", Item{backstage, 6, 20}, 22},
 		{"concert in 5 days increse by 3", Item{backstage, 5, 20}, 23},
 		{"concert pass drop to 0", Item{backstage, -1, 20}, 0},
+	}
+
+	for _, tc := range tests {
+		tc := tc // capture range variable
+		t.Run(tc.name, func(t *testing.T) {
+			t.Parallel()
+			actual := StockTaking([]Item{tc.item})[0].quality
+			if tc.expected != actual {
+				t.Errorf("Expect quality to be %v for sell in %v. Got %v", tc.expected, tc.item.sellIn, actual)
+			}
+		})
+	}
+}
+
+func TestStockTakinConjuredGeneralQualities(t *testing.T) {
+	t.Skip("not implemented yet")
+	subject := "Conjured Mana Cake"
+	tests := []struct {
+		name     string
+		item     Item
+		expected int
+	}{
+		{"quality decrease every day by 2", Item{subject, 15, 20}, 18},
+		{"quality decrease every day by 2 even quality is higher maximum", Item{subject, 15, 60}, 58},
+		{"quality decrease faster on sell passed", Item{subject, -15, 20}, 16},
+		{"quality could be zero", Item{subject, 15, 2}, 0},
+		{"quality could be zero with current quality 1", Item{subject, 15, 1}, 0},
+		{"quality could be zero after passed", Item{subject, -15, 4}, 0},
+		{"quality is not negative", Item{subject, 15, 1}, 0},
+		{"quality is not negative even for passed", Item{subject, -15, 0}, 0},
 	}
 
 	for _, tc := range tests {
