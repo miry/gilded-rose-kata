@@ -3,19 +3,44 @@
 - Run :
 
 ```shell
-go run gilded-rose.go
+$ make run
 ```
 
 - Run tests :
 
 ```shell
-go test -race -v
+$ make test
 ```
 
 - Run tests and coverage :
 
 ```shell
-go test -coverprofile=coverage.out
+$ make coverage
+```
 
-go tool cover -html=coverage.out
+# Linter
+
+Check that code is designed by Team practicies and save team on code review.
+Use https://github.com/golangci/golangci-lint as tool to run multiple checks.
+
+```shell
+$ go get -u github.com/golangci/golangci-lint/cmd/golangci-lint
+# Mac OS could be installed
+$ brew install golangci/tap/golangci-lint
+```
+
+To check code, before be sure that `golangci-lint` in `$PATH`
+
+```shell
+$ make lint
+```
+
+## Git
+
+### Hooks
+
+To run git hooks from repo. Be sure that Linter installed.
+
+```shell
+$ git config core.hooksPath ./go/bin/hooks
 ```
