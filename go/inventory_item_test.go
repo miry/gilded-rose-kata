@@ -51,3 +51,25 @@ func TestInventoryItemLongAged(t *testing.T) {
 		})
 	}
 }
+
+func TestInventoryItemIsPromoted(t *testing.T) {
+	tests := []struct {
+		name     string
+		subject  *InventoryItem
+		expected bool
+	}{
+		{"Cheese", &InventoryItem{&Item{name: "Aged Brie"}}, false},
+		{"Promoted", &InventoryItem{&Item{name: "Backstage passes to a TAFKAL80ETC concert"}}, true},
+		{"General", &InventoryItem{&Item{name: "+5 Dexterity Vest"}}, false},
+	}
+	for _, tc := range tests {
+		tc := tc // capture range variable
+		t.Run(tc.name, func(t *testing.T) {
+			t.Parallel()
+			actual := tc.subject.IsPromoted()
+			if tc.expected != actual {
+				t.Errorf("IsPromoted() == %v; want %v", actual, tc.expected)
+			}
+		})
+	}
+}

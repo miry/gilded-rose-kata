@@ -11,7 +11,7 @@ func StockTaking(items []*Item) []*Item {
 }
 
 func processItem(item *InventoryItem) *InventoryItem {
-	if !item.IsLongestAged() && item.name != "Backstage passes to a TAFKAL80ETC concert" {
+	if !item.IsLongestAged() && !item.IsPromoted() {
 		if item.quality > 0 {
 			if item.name != "Sulfuras, Hand of Ragnaros" {
 				item.quality--
@@ -20,7 +20,7 @@ func processItem(item *InventoryItem) *InventoryItem {
 	} else {
 		if item.quality < 50 {
 			item.quality++
-			if item.name == "Backstage passes to a TAFKAL80ETC concert" {
+			if item.IsPromoted() {
 				if item.sellIn < 11 {
 					if item.quality < 50 {
 						item.quality++
@@ -41,7 +41,7 @@ func processItem(item *InventoryItem) *InventoryItem {
 
 	if item.sellIn < 0 {
 		if !item.IsLongestAged() {
-			if item.name != "Backstage passes to a TAFKAL80ETC concert" {
+			if !item.IsPromoted() {
 				if item.quality > 0 {
 					if item.name != "Sulfuras, Hand of Ragnaros" {
 						item.quality--

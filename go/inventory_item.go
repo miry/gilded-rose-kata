@@ -1,7 +1,16 @@
 package main
 
+type empty struct{}
+type set map[string]empty
+
 const (
-	AGED_BRIE = "Aged Brie"
+	AGED_BRIE        = "Aged Brie"
+	BACKSTAGE_PASSES = "Backstage passes to a TAFKAL80ETC concert"
+)
+
+var (
+	LONGEST_AGED = set{AGED_BRIE: empty{}}
+	PROMOTED     = set{BACKSTAGE_PASSES: empty{}}
 )
 
 // InventoryItem extends Item with extra functionality
@@ -14,5 +23,11 @@ func NewInventoryItem(item *Item) *InventoryItem {
 }
 
 func (i *InventoryItem) IsLongestAged() bool {
-	return i.name == AGED_BRIE
+	_, ok := LONGEST_AGED[i.name]
+	return ok
+}
+
+func (i *InventoryItem) IsPromoted() bool {
+	_, ok := PROMOTED[i.name]
+	return ok
 }
