@@ -74,7 +74,7 @@ func TestStockTakingChangeQuality(t *testing.T) {
 }
 
 func TestStockTakingCheesItemChangingQuality(t *testing.T) {
-	subject := "Aged Brie"
+	subject := AGED_BRIE
 	tests := []struct {
 		name     string
 		item     *Item
@@ -109,7 +109,7 @@ func TestStockTakingCheesItemChangingQuality(t *testing.T) {
 
 func TestStockTakingCaseAgedBrieDecrSellIn(t *testing.T) {
 	subject := []*Item{
-		&Item{"Aged Brie", 10, 30},
+		&Item{AGED_BRIE, 10, 30},
 	}
 
 	actual := StockTaking(subject)[0].sellIn

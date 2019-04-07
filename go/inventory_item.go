@@ -38,3 +38,63 @@ func (i *InventoryItem) IsLegendary() bool {
 	_, ok := LEGENDARY[i.name]
 	return ok
 }
+
+func (item *InventoryItem) Process() {
+	if item.IsLegendary() {
+		return
+	}
+
+	// Modify quality
+	if !item.IsLongestAged() && !item.IsPromoted() {
+		// Decrement quality
+		if item.quality > 0 {
+			item.quality--
+		}
+	} else {
+		// Increment quality
+		if item.quality < 50 {
+			item.quality++
+			if item.IsPromoted() {
+
+				if item.sellIn < 11 {
+					item.quality++
+				}
+
+				if item.sellIn < 6 {
+					item.quality++
+				}
+
+			}
+
+			if item.quality > 50 {
+				item.quality = 50
+			}
+
+		}
+	}
+
+	// Decrement Sell In
+	item.sellIn--
+
+	if item.sellIn >= 0 {
+		return
+	}
+
+	if item.IsPromoted() {
+		item.quality = 0
+		return
+	}
+
+	// Sell In Passed Section
+	if item.IsLongestAged() {
+		if item.quality < 50 {
+			item.quality++
+		}
+
+		return
+	}
+
+	if item.quality > 0 {
+		item.quality--
+	}
+}
