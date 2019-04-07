@@ -13,7 +13,7 @@ func StockTaking(items []*Item) []*Item {
 func processItem(item *InventoryItem) *InventoryItem {
 	if !item.IsLongestAged() && !item.IsPromoted() {
 		if item.quality > 0 {
-			if item.name != "Sulfuras, Hand of Ragnaros" {
+			if !item.IsLegendary() {
 				item.quality--
 			}
 		}
@@ -35,7 +35,7 @@ func processItem(item *InventoryItem) *InventoryItem {
 		}
 	}
 
-	if item.name != "Sulfuras, Hand of Ragnaros" {
+	if !item.IsLegendary() {
 		item.sellIn--
 	}
 
@@ -43,7 +43,7 @@ func processItem(item *InventoryItem) *InventoryItem {
 		if !item.IsLongestAged() {
 			if !item.IsPromoted() {
 				if item.quality > 0 {
-					if item.name != "Sulfuras, Hand of Ragnaros" {
+					if !item.IsLegendary() {
 						item.quality--
 					}
 				}
