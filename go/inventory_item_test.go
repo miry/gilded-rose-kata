@@ -14,6 +14,7 @@ func TestNewInventory(t *testing.T) {
 		{"+5 Dexterity Vest", "*main.GeneralItem"},
 		{"Backstage passes to a TAFKAL80ETC concert", "*main.PromotedItem"},
 		{"Sulfuras, Hand of Ragnaros", "*main.LegendaryItem"},
+		{"Conjured Mana Cake", "*main.ConjuredItem"},
 	}
 	for _, tc := range tests {
 		tc := tc // capture range variable

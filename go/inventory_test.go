@@ -189,8 +189,7 @@ func TestStockTakingBackstagePassesQuality(t *testing.T) {
 	}
 }
 
-func TestStockTakingConjuredGeneralQualities(t *testing.T) {
-	t.Skip("not implemented yet")
+func TestStockTakingConjuredQualities(t *testing.T) {
 	subject := "Conjured Mana Cake"
 	tests := []struct {
 		name     string
