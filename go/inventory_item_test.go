@@ -30,3 +30,24 @@ func TestInventoryItemValidate(t *testing.T) {
 		})
 	}
 }
+
+func TestInventoryItemLongAged(t *testing.T) {
+	tests := []struct {
+		name     string
+		subject  *InventoryItem
+		expected bool
+	}{
+		{"Aged Brie", &InventoryItem{&Item{name: "Aged Brie"}}, true},
+		{"General", &InventoryItem{&Item{name: "+5 Dexterity Vest"}}, false},
+	}
+	for _, tc := range tests {
+		tc := tc // capture range variable
+		t.Run(tc.name, func(t *testing.T) {
+			t.Parallel()
+			actual := tc.subject.IsLongestAged()
+			if tc.expected != actual {
+				t.Errorf("IsLongestAged() == %v; want %v", actual, tc.expected)
+			}
+		})
+	}
+}
