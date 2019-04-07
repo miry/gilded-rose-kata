@@ -39,22 +39,25 @@ func processItem(item *InventoryItem) *InventoryItem {
 		item.sellIn--
 	}
 
-	if item.sellIn < 0 {
-		if !item.IsLongestAged() {
-			if !item.IsPromoted() {
-				if item.quality > 0 {
-					if !item.IsLegendary() {
-						item.quality--
-					}
+	if item.sellIn >= 0 {
+		return item
+	}
+
+	if !item.IsLongestAged() {
+		if !item.IsPromoted() {
+			if item.quality > 0 {
+				if !item.IsLegendary() {
+					item.quality--
 				}
-			} else {
-				item.quality = 0
 			}
 		} else {
-			if item.quality < 50 {
-				item.quality++
-			}
+			item.quality = 0
+		}
+	} else {
+		if item.quality < 50 {
+			item.quality++
 		}
 	}
+
 	return item
 }
