@@ -1,17 +1,17 @@
 package main
 
 type GeneralItem struct {
-	*Item
+	*InventoryItem
 }
 
 func (item *GeneralItem) Process() {
-	if item.quality > 0 {
-		item.quality--
+	if item.GetQuality() > 0 {
+		item.DecrQuality() // = quality -= speed
 	}
 
 	item.sellIn--
 
-	if item.sellIn < 0 && item.quality > 0 {
-		item.quality--
+	if item.sellIn < 0 {
+		item.DecrQuality() // <= && item.quality > 0
 	}
 }
